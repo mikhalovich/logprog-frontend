@@ -1,66 +1,67 @@
 <template>
-  <div>
-    <v-app-bar
-      absolute
-      dense
-      color="teal"
-      elevate-on-scroll
-      scroll-target="#scrolling-techniques-7"
-    >
-      logo
-      <v-spacer></v-spacer>
-      <v-tabs slider-color="yellow" fixed-tabs dark>
-        <v-tab v-for="(item, i) in items" :key="i" :to="item.path">
+  <el-container>
+    <el-header>
+      <el-menu
+        :default-active="activeIndex"
+        class="el-menu-demo"
+        mode="horizontal"
+        :router="true"
+        :ellipsis="false"
+      >
+        <el-menu-item index="0">LOGO</el-menu-item>
+        <div class="flex-grow" />
+        <el-menu-item
+          v-for="(item, index) in items"
+          :key="index"
+          :index="`${index + 1}`"
+          :route="item.path"
+        >
           {{ item.name }}
-        </v-tab>
-      </v-tabs>
-    </v-app-bar>
-    <v-main class="pt-12">
+        </el-menu-item>
+      </el-menu>
+    </el-header>
+    <el-main>
       <slot />
-    </v-main>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
-<script>
-import { mapActions } from 'vuex';
+<script setup lang="ts">
+import { ref, reactive, onBeforeMount } from "vue";
+import { useCompaniesStore } from "@/stores/companies.store";
 
-export default {
-  data () {
-    return {
-      items: [
-        {
-          name: 'Главная',
-          path: '/'
-        },
-        {
-          name: 'Компания',
-          path: '/company'
-        },
-        {
-          name: 'Автопарк',
-          path: '/vehicles'
-        },
-        {
-          name: 'Финансы',
-          path: '/finance'
-        },
-        {
-          name: 'Пользователь',
-          path: '/user'
-        }
-      ]
-    };
+interface Item {
+  name: string;
+  path: string;
+}
+
+const companiesStore = useCompaniesStore();
+
+onBeforeMount(async () => {
+  await companiesStore.fetchCompany();
+});
+
+const activeIndex = ref("1");
+const items: Item[] = reactive([
+  {
+    name: "Главная",
+    path: "/",
   },
-
-  async created () {
-    await this.fetchData({ module: 'companies', type: 'Company' });
+  {
+    name: "Компания",
+    path: "/company",
   },
-
-  methods: {
-    ...mapActions(['fetchData'])
-  }
-};
+  {
+    name: "Автопарк",
+    path: "/vehicles",
+  },
+  {
+    name: "Финансы",
+    path: "/finance",
+  },
+  {
+    name: "Пользователь",
+    path: "/user",
+  },
+]);
 </script>
-
-<style>
-</style>

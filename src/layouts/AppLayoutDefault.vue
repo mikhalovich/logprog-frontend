@@ -1,13 +1,5 @@
 <template>
-  <v-main>
+  <el-container class="h-screen">
     <slot />
-  </v-main>
+  </el-container>
 </template>
-
-<script>
-export default {
-
-};
-</script>
-
-<style></style>
