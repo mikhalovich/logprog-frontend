@@ -1,6 +1,7 @@
 export declare enum VehicleTypes {
   TRAILER = 'trailer',
   TRUCK = 'truck',
+  EMPTY = ''
 }
 
 export declare enum Currencies {

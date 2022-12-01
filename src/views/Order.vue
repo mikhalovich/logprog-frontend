@@ -25,7 +25,7 @@
     <el-form-item label="Перевозчик">
       <el-select
         v-model="order.carrier"
-        @change="ordersStore.fetchCarrier"
+        @change="getCarrier"
         value-key="uid"
         class="m-2"
         placeholder="Select"
@@ -156,20 +156,19 @@
 
 <script setup lang="ts">
 import { ref, computed, ComputedRef, onBeforeMount } from "vue";
+import { ICompanyDto, IVehicle, IDriver } from "@/types";
+import { VehicleTypes } from "@/types/order/enums";
 import { storeToRefs } from "pinia";
 import { useOrdersStore } from "@/stores/orders.store";
 import { useCompaniesStore } from "@/stores/companies.store";
 import { useRoute, useRouter } from "vue-router";
 
 const { query } = useRoute();
+
 const router = useRouter();
 const ordersStore = useOrdersStore();
 const companiesStore = useCompaniesStore();
-onBeforeMount(async () => {
-  await ordersStore.fetchContractors();
-});
 
-// const { company } = storeToRefs(useCompaniesStore());
 const {
   order,
   getCarriersTrucks,
@@ -179,18 +178,32 @@ const {
   currencies,
 } = storeToRefs(ordersStore);
 
-const value = ref("");
+onBeforeMount(async () => {
+  await ordersStore.fetchContractors();
+  if (query.orderUid) {
+    await ordersStore.fetchOrder(query.orderUid as string);
+    await ordersStore.fetchCarrier(order.value.carrier);
+  }
+});
+
 const allCarriers = computed(() => {
   return [...ordersStore.getCariers, companiesStore.company];
 });
 
+const getCarrier = async (data: ICompanyDto) => {
+  await ordersStore.fetchCarrier(data);
+  order.value.truck = <IVehicle>{};
+  order.value.trailer = <IVehicle>{};
+  order.value.driver = <IDriver>{};
+};
+
 const save = async () => {
-  const queryUid = query.orderUid;
   if (query.orderUid) {
-    // await ordersStore.updateOrder(queryUid);
+    await ordersStore.updateOrder(query.orderUid as string);
   } else {
+    await ordersStore.fetchLastOrder();
     await ordersStore.createOrder();
-    router.push({ query: { orderUid: order.uid } });
+    router.push({ query: { orderUid: order.value.uid } });
   }
 };
 </script>

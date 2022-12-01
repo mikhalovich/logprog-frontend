@@ -1,10 +1,15 @@
 <template>
-  <el-table :data="filteredOrders" style="width: 100%">
-    <el-table-column label="Номер" width="80">
+  <el-table
+    v-if="filteredOrders.length"
+    :data="filteredOrders"
+    :default-sort="{ prop: 'orderNumber', order: 'descending' }"
+    style="width: 100%"
+  >
+    <el-table-column label="Номер" prop="orderNumber" sortable width="80">
       <template #default="scope">
         <router-link
           class="text-blue-600 underline"
-          :to="{ name: 'home', query: { orderUid: scope.row.orderUid } }"
+          :to="{ name: 'order', query: { orderUid: scope.row.orderUid } }"
         >
           {{ scope.row.orderNumber }}
         </router-link>
@@ -20,7 +25,7 @@
       </template>
       <template #default="scope">
         <el-button size="small" @click="handleCopy(scope.$index, scope.row)"
-          >Edit</el-button
+          >Copy</el-button
         >
         <el-button
           size="small"
@@ -51,8 +56,9 @@ const search = ref("");
 const router = useRouter();
 const ordersStore = useOrdersStore();
 
+ordersStore.fetchOrders();
 const filteredOrders = computed(() => {
-  return [...ordersStore.filteredOrders];
+  return ordersStore.filteredOrders;
 });
 
 const createNewOrder = () => {

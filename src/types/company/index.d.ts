@@ -11,4 +11,5 @@ export interface ICompanyDto {
   drivers?: IDriver[];
   contractors?: IContracrotDto[];
   address?: string;
+  carrier?: IContracrotDto[];
 }

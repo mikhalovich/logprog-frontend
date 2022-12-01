@@ -24,7 +24,7 @@ export interface IOrderDto {
   fromPoint: string;
   toPoint: string;
   orderCreateDate: string;
-  orderNumber: string;
+  orderNumber: number;
   shipmentDate: string[];
   carrier: ICompanyDto;
   client: ICompanyDto;
@@ -35,7 +35,7 @@ export interface IOrderDto {
 
 export interface IFilteredOrder {
   orderUid: string;
-  orderNumber: string;
+  orderNumber: number;
   shipmentDate: string;
   client: ICompanyDto;
   carrier: ICompanyDto;

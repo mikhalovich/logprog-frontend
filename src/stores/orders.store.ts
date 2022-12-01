@@ -63,13 +63,6 @@ export const useOrdersStore = defineStore('ordersStore', {
         (vehicle: IVehicle) => vehicle.type === 'trailer',
       ),
     getCarriersDrivers: (state) => state.order.carrier?.drivers || [],
-    // getCariers: (state) => {
-    //   return [
-    //     ...state.contractors.filter(
-    //       (contractor) => contractor.type === 'carrier',
-    //     ),
-    //   ];
-    // },
     getCariers: (state) =>
       state.contractors.filter((contractor) => contractor.type === 'carrier'),
     getClients: (state) =>
@@ -101,6 +94,7 @@ export const useOrdersStore = defineStore('ordersStore', {
       ordersSnapshot.forEach((order) => {
         this.lastOrder = order.data() as IOrderDto;
       });
+      this.order.orderNumber = this.lastOrder.orderNumber + 1;
     },
 
     async fetchContractors() {
@@ -171,14 +165,11 @@ export const useOrdersStore = defineStore('ordersStore', {
       };
     },
     async createOrder() {
-      debugger;
       const orderRef = await doc(collection(db, 'orders'));
       await setDoc(orderRef, this.order);
       this.order.uid = orderRef.id;
-      debugger;
     },
     async updateOrder(orderId: string) {
-      debugger;
       const orderRef = doc(db, 'orders', orderId);
       await updateDoc(orderRef, this.order as {});
     },

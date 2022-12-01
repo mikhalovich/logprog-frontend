@@ -5,7 +5,6 @@
 </template>
 
 <script setup lang="ts">
-import { useOrdersStore } from "@/stores/orders.store";
 import { defineAsyncComponent, computed } from "vue";
 import { useRoute } from "vue-router";
 
@@ -15,8 +14,6 @@ const layout = computed(() => {
     () => import(`./layouts/${meta.layout ?? "AppLayoutDefault"}.vue`)
   );
 });
-const ordersStore = useOrdersStore();
-ordersStore.fetchOrders();
 </script>
 
 <style scoped>
