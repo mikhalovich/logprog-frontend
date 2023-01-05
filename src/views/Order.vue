@@ -129,17 +129,17 @@
       />
     </el-form-item>
     <el-form-item label="Стоимость для перевозчика">
-      <el-input v-model="order.carrierPrice" placeholder="Please input" />
+      <el-input v-model="order.carrierPrice" placeholder="Введите стоимость" />
     </el-form-item>
     <el-form-item label="Стоимость для заказчика">
-      <el-input v-model="order.clientPrice" placeholder="Please input" />
+      <el-input v-model="order.clientPrice" placeholder="Введите стоимость" />
     </el-form-item>
     <el-form-item label="Откуда">
       <el-input
         v-model="order.fromPoint"
         autosize
         type="textarea"
-        placeholder="Please input"
+        placeholder="Введите место загрузки"
       />
     </el-form-item>
     <el-form-item label="Куда">
@@ -147,7 +147,7 @@
         v-model="order.toPoint"
         autosize
         type="textarea"
-        placeholder="Please input"
+        placeholder="Введите место выгрузки"
       />
     </el-form-item>
   </el-form>
@@ -157,7 +157,6 @@
 <script setup lang="ts">
 import { ref, computed, ComputedRef, onBeforeMount } from "vue";
 import { ICompanyDto, IVehicle, IDriver } from "@/types";
-import { VehicleTypes } from "@/types/order/enums";
 import { storeToRefs } from "pinia";
 import { useOrdersStore } from "@/stores/orders.store";
 import { useCompaniesStore } from "@/stores/companies.store";

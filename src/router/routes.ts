@@ -3,8 +3,9 @@ import Home from '@/views/Home.vue';
 import Order from '@/views/Order.vue';
 import User from '@/views/User.vue';
 import Company from '@/views/Company.vue';
-import Vehicles from '@/views/Vehicles.vue';
+import Staff from '@/views/Staff.vue';
 import Vehicle from '@/views/Vehicle.vue';
+import Driver from '@/views/Driver.vue';
 import Registration from '@/views/Registration.vue';
 import Login from '@/views/Login.vue';
 import ResetPassword from '@/views/ResetPassword.vue';
@@ -42,14 +43,22 @@ export const routes: RouteRecordRaw[] = [
       layout: 'MainLayout',
     },
   },
-  // {
-  //   path: '/user',
-  //   name: 'user',
-  //   component: () => User,
-  //   meta: {
-  //     layout: 'MainLayout',
-  //   },
-  // },
+  {
+    path: '/user',
+    name: 'user',
+    component: User,
+    meta: {
+      layout: 'MainLayout',
+    },
+  },
+  {
+    path: '/company',
+    name: 'company',
+    component: Company,
+    meta: {
+      layout: 'MainLayout',
+    },
+  },
   // {
   //   path: '/company',
   //   name: 'company',
@@ -58,22 +67,30 @@ export const routes: RouteRecordRaw[] = [
   //     layout: 'MainLayout',
   //   },
   // },
-  // {
-  //   path: '/vehicles',
-  //   name: 'vehicles',
-  //   component: Vehicles,
-  //   meta: {
-  //     layout: 'MainLayout',
-  //   },
-  // },
-  // {
-  //   path: '/vehicles/vehicle',
-  //   name: 'vehicle',
-  //   component: () => Vehicle,
-  //   meta: {
-  //     layout: 'MainLayout',
-  //   },
-  // },
+  {
+    path: '/staff',
+    name: 'staff',
+    component: Staff,
+    meta: {
+      layout: 'MainLayout',
+    },
+  },
+  {
+    path: '/staff/vehicle',
+    name: 'vehicle',
+    component: Vehicle,
+    meta: {
+      layout: 'MainLayout',
+    },
+  },
+  {
+    path: '/staff/driver',
+    name: 'driver',
+    component: Driver,
+    meta: {
+      layout: 'MainLayout',
+    },
+  },
   // {
   //   path: '/registration',
   //   name: 'registration',

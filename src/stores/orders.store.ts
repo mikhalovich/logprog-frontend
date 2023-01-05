@@ -38,7 +38,7 @@ export const useOrdersStore = defineStore('ordersStore', {
       orders: [],
       currencies: ['RUB', 'EUR', 'BYN', 'USD'],
       contractors: [],
-      order: {} as IOrderDto | undefined,
+      order: {} as IOrderDto | {},
       lastOrder: {} as IOrderDto | {},
     } as OrdersState),
   getters: {
@@ -115,9 +115,10 @@ export const useOrdersStore = defineStore('ordersStore', {
       this.contractors = <IContractorDto[]>[...contractorsList, company];
     },
     async fetchCarrier(data: ICompanyDto) {
-      const carrierRef = doc(db, 'companies', data.uid || '');
+      const carrierRef = doc(db, 'companies', data.uid);
       const carrierSnap = await getDoc(carrierRef);
       const carrier = <ICompanyDto>carrierSnap.data();
+      carrier.uid = carrierSnap.id;
 
       const carrierVehiclesCol = collection(
         db,
@@ -148,7 +149,6 @@ export const useOrdersStore = defineStore('ordersStore', {
       );
 
       this.order.carrier = <ICompanyDto>{
-        uid: carrierSnap.id,
         ...carrier,
         agreement: data.agreement,
         vehicles: carrierVehiclesList,

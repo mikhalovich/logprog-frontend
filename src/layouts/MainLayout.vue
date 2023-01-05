@@ -8,15 +8,20 @@
         :router="true"
         :ellipsis="false"
       >
-        <el-menu-item index="0">LOGO</el-menu-item>
+        <el-menu-item index="">LOGO</el-menu-item>
+        <!-- <el-menu-item index="1"> Главная </el-menu-item>
+        <el-menu-item index="2"> Компания </el-menu-item>
+        <el-menu-item index="3"> Автопарк </el-menu-item>
+        <el-menu-item index="4" :route="'/finance'"> Финансы </el-menu-item>
+        <el-menu-item index="5" :route="'/user'"> Пользователь </el-menu-item> -->
         <div class="flex-grow" />
         <el-menu-item
           v-for="(item, index) in items"
           :key="index"
-          :index="`${index + 1}`"
-          :route="item.path"
+          :index="`${item.path}`"
+          :route="{ name: item.name }"
         >
-          {{ item.name }}
+          {{ item.title }}
         </el-menu-item>
       </el-menu>
     </el-header>
@@ -31,8 +36,9 @@ import { ref, reactive, onBeforeMount } from "vue";
 import { useCompaniesStore } from "@/stores/companies.store";
 
 interface Item {
-  name: string;
+  title: string;
   path: string;
+  name: string;
 }
 
 const companiesStore = useCompaniesStore();
@@ -41,27 +47,37 @@ onBeforeMount(async () => {
   await companiesStore.fetchCompany();
 });
 
-const activeIndex = ref("1");
+const activeIndex = ref("/");
 const items: Item[] = reactive([
   {
-    name: "Главная",
+    title: "Главная",
     path: "/",
+    name: "home",
   },
   {
-    name: "Компания",
+    title: "Компания",
     path: "/company",
+    name: "company",
   },
   {
-    name: "Автопарк",
-    path: "/vehicles",
+    title: "Автопарк",
+    path: "/staff",
+    name: "staff",
   },
+  // {
+  //   title: "Финансы",
+  //   path: "/finance",
+  //   name: "Finance"
+  // },
   {
-    name: "Финансы",
-    path: "/finance",
-  },
-  {
-    name: "Пользователь",
+    title: "Пользователь",
     path: "/user",
+    name: "user",
   },
 ]);
+
+// const handleSelect = (key: string, keyPath: string[], item: {}) => {
+//   console.log(item);
+//   // activeIndex = key as string
+// };
 </script>
